@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+*::placeholder {
+  color: #7744d5;
+}
+.navbar {
+  background: #7744d5;
+}
+i {
+  color: #fff;
+  font-size: 25px;
+}
+#channel-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#channel-form input {
+  border: 1px solid #7744d5;
+  border-radius: 10px;
+  outline: none;
+  background: none;
+}
+#channel-form input[type="submit"] {
+  background: #7744d5;
+}
+#channel-form input[type="submit"]:hover {
+  background: none;
+}
+#messages-container {
+  list-style: none;
+}
+.message {
+  border: 2px solid #7744d5;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 30px;
+}
+.purple {
+  color: #7744d5;
+  font-weight: bold;
+}
+.dark {
+  background: #000;
+  color: #fff;
+}
+#channel-name-text {
+  border: 2px solid #7744d5;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#view-channel-name {
+  color: #7744d5;
+  font-weight: bold;
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  #channel-form-input {
+    color: #000;
+  }
+  .btn-toggle-mode {
+    display: none;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #000;
+    color: #fff;
+  }
+  #channel-form input {
+    color: #fff;
+  }
+  .btn-toggle-mode {
+    display: none;
+  }
+}
