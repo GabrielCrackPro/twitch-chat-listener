@@ -53,12 +53,10 @@ channelForm.addEventListener("submit", (event) => {
     if (message.startsWith("@")) {
       let [mention, ...args] = message.split(" ");
       messageElement.innerHTML = `<span id="chat-name">${messageContent.name}</span> <span class="purple">${mention}</span> ${args}`;
-      console.log(mention);
     }
     if (message.startsWith("http") || message.startsWith("https")) {
       const [link, ...args] = message.split("/^[^s]+/");
       messageElement.innerHTML = `<span id="chat-name">${messageContent.name}</span> <a href="${link}" class="purple">${link}</a>`;
-      console.log(link);
     }
     if (
       messageContent.name == "Nightbot" ||
@@ -73,6 +71,10 @@ channelForm.addEventListener("submit", (event) => {
       messageContent.name !== "Nightbot"
     ) {
       messageElement.innerHTML = `<i class="bi bi-twitch purple fs-3"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
+    }
+    if (tags.badges && tags.badges.broadcaster) {
+      messageElement.innerHTML = `<i class="bi bi-camera-video-fill red"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
+      messageElement.style.border = "2px solid #f00";
     }
     messagesContainer.appendChild(messageElement);
     messageElement.scrollIntoView();

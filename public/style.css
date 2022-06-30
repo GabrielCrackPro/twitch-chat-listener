@@ -43,6 +43,9 @@ i {
   color: #7744d5;
   font-weight: bold;
 }
+.red {
+  color: #f00;
+}
 .dark {
   background: #000;
   color: #fff;
