@@ -39,6 +39,11 @@ i {
   padding: 15px;
   border-radius: 30px;
 }
+.message img{
+  height: 20px;
+  width: 20px;
+  border-radius: 30px;
+}
 .purple {
   color: #7744d5;
   font-weight: bold;
