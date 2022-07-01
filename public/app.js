@@ -2,29 +2,12 @@ const messagesContainer = document.querySelector("#messages-container");
 const channelForm = document.querySelector("#channel-form");
 const channelFormInput = document.querySelector("#channel-form input");
 const channelNameText = document.querySelector("#channel-name-text");
-const toggleModeButton = document.querySelector(".btn-toggle-mode");
-
-toggleModeButton.addEventListener("click", () => {
-  if (!document.body.classList.contains("dark")) {
-    document.body.style.background = "#000";
-    document.body.style.color = "#fff";
-    channelFormInput.style.color = "#fff";
-    toggleModeButton.innerHTML = `<i class="bi bi-brightness-high-fill"></i>`;
-    document.body.classList.add("dark");
-  } else {
-    document.body.style.background = "#fff";
-    document.body.style.color = "#000";
-    channelFormInput.style.color = "#000";
-    toggleModeButton.innerHTML = `<i class="bi bi-moon-fill"></i>`;
-    document.body.classList.remove("dark");
-  }
-});
 
 channelForm.addEventListener("submit", (event) => {
   event.preventDefault();
   messagesContainer.innerHTML = "";
   const formData = new FormData(channelForm);
-  const channel = formData.get("channel-name").toLocaleLowerCase();
+  const channel = formData.get("channel-name").toLowerCase();
   if (!channel) return;
   const client = new tmi.Client({
     channels: [channel],
@@ -33,9 +16,9 @@ channelForm.addEventListener("submit", (event) => {
   channelNameText.innerHTML = `<i class="bi bi-tv-fill"></i>:<span id="view-channel-name">${channel}</span>`;
   channelForm.reset();
 
-  client.on("message",(channel, tags, message, self) => {
+  client.on("message", (channel, tags, message, self) => {
     if (self) return;
-    const avatarUrl = `https://unavatar.io/twitter/${tags.username}`
+    const avatarUrl = `https://unavatar.io/twitter/${tags.username}`;
     const messageElement = document.createElement("li");
     messageElement.classList.add("message");
     const messageContent = {
@@ -71,9 +54,7 @@ channelForm.addEventListener("submit", (event) => {
       tags.badges.subscriber &&
       messageContent.name !== "Nightbot"
     ) {
-      messageElement.innerHTML = `<img src="${avatarUrl}"> <i class="bi bi-twitch purple fs-3"></i> <span id="chat-name">${
-        messageContent.name
-      }</span>: ${messageContent.message}`;
+      messageElement.innerHTML = `<img src="${avatarUrl}"> <i class="bi bi-twitch purple fs-3"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
     }
     if (tags.badges && tags.badges.broadcaster) {
       messageElement.innerHTML = `<i class="bi bi-camera-video-fill red"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
@@ -81,18 +62,25 @@ channelForm.addEventListener("submit", (event) => {
     }
     messagesContainer.appendChild(messageElement);
     messageElement.scrollIntoView();
-    console.log(tags);
 
     client.on(
       "subscription",
       (channel, username, method, message, userstate) => {
         const subMessage = document.createElement("li");
         subMessage.classList.add("message");
-        subMessage.innerHTML = `<i class="bi bi-star-fill fs-3"></i> <span id="chat-name">${username}</span> se ha suscrito`;
+        subMessage.innerHTML = `<i class="bi bi-star-fill fs-3"></i> <span id="chat-name">${username}</span> has suscribed`;
         messagesContainer.appendChild(subMessage);
         subMessage.scrollIntoView();
       }
     );
+    client.on("cheer", (channel, userstate, message) => {
+      const cheerMessage = document.createElement("li");
+      cheerMessage.classList.add("message");
+      cheerMessage.innerHTML = `<i class="bi bi-currency-dollar fs-3"></i> <span id="chat-name">${userstate.username}</span> has donated ${userstate.bits} bits`;
+      messagesContainer.appendChild(cheerMessage);
+      cheerMessage.scrollIntoView();
+    });
+
     // TODO: Implemnt rest of events
     // TODO: Render emotes in chat
   });
