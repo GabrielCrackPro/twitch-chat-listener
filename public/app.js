@@ -35,13 +35,14 @@ channelForm.addEventListener("submit", (event) => {
 
   client.on("message", (channel, tags, message, self) => {
     if (self) return;
+    const avatarUrl = `https://static-cdn.jtvnw.net/jtv_user_pictures/${tags.id}-profile_image-70x70.png`
     const messageElement = document.createElement("li");
     messageElement.classList.add("message");
     const messageContent = {
       name: tags["display-name"],
       message,
     };
-    messageElement.innerHTML = `<span id="chat-name">${messageContent.name}</span> ${messageContent.message}`;
+    messageElement.innerHTML = `<img src="${avatarUrl}" referrerpolicy="no-referrer"> <span id="chat-name">${messageContent.name}</span> ${messageContent.message}`;
     const chatName = messageElement.querySelector("#chat-name");
     if (tags.color) {
       chatName.style.color = tags.color;
@@ -70,7 +71,9 @@ channelForm.addEventListener("submit", (event) => {
       tags.badges.subscriber &&
       messageContent.name !== "Nightbot"
     ) {
-      messageElement.innerHTML = `<i class="bi bi-twitch purple fs-3"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
+      messageElement.innerHTML = `<img src="${avatarUrl}" referrerpolicy="no-referrer"> <i class="bi bi-twitch purple fs-3"></i> <span id="chat-name">${
+        messageContent.name
+      }</span>: ${messageContent.message}`;
     }
     if (tags.badges && tags.badges.broadcaster) {
       messageElement.innerHTML = `<i class="bi bi-camera-video-fill red"></i> <span id="chat-name">${messageContent.name}</span>: ${messageContent.message}`;
