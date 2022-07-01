@@ -15,9 +15,9 @@ App to listen to twitch chat built using <a href="http://tmijs.com">tmijs</a> li
 - [x] Show messages on page
 - [ ] Detect chat events
   - [x] Messages
-  - [ ] Subs
+  - [x] Subs
   - [ ] Subs gifts
-  - [ ] Cheers
+  - [x] Cheers
   - [ ] Host
   - [ ] Raid
 - [ ] Detect mentions
