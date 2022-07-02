@@ -18,7 +18,7 @@ channelForm.addEventListener("submit", (event) => {
 
   client.on("message", (channel, tags, message, self) => {
     if (self) return;
-    const avatarUrl = `https://unavatar.io/twitter/${tags.username}`;
+    const avatarUrl = `https://unavatar.io/twitter/${tags["display-name"]}`;
     const messageElement = document.createElement("li");
     messageElement.classList.add("message");
     const messageContent = {
@@ -36,12 +36,13 @@ channelForm.addEventListener("submit", (event) => {
     }
     if (message.startsWith("@")) {
       let [mention, ...args] = message.split(" ");
-      messageElement.innerHTML = `<img src="${avatarUrl}"> <span id="chat-name">${messageContent.name}</span> <span class="purple">${mention}</span> ${args}`;
+      messageElement.innerHTML = `<img src="${avatarUrl}"> <span id="chat-name">${
+        messageContent.name
+      }</span> <span class="purple text-decoration-underline">${mention}</span> ${args.join(
+        " "
+      )}`;
     }
-    if (message.startsWith("http") || message.startsWith("https")) {
-      const [link, ...args] = message.split("/^[^s]+/");
-      messageElement.innerHTML = `<img src="${avatarUrl}"> <span id="chat-name">${messageContent.name}</span> <a href="${link}" class="purple">${link}</a>`;
-    }
+
     if (
       messageContent.name == "Nightbot" ||
       messageContent.name == "Streamlabs"
@@ -76,7 +77,7 @@ channelForm.addEventListener("submit", (event) => {
     client.on("cheer", (channel, userstate, message) => {
       const cheerMessage = document.createElement("li");
       cheerMessage.classList.add("message");
-      cheerMessage.innerHTML = `<i class="bi bi-currency-dollar fs-3"></i> <span id="chat-name">${userstate.username}</span> has donated ${userstate.bits} bits`;
+      cheerMessage.innerHTML = `<i class="bi bi-currency-dollar fs-3"></i> <span id="chat-name">${userstate.username}</span> has cheered ${userstate.bits} bits`;
       messagesContainer.appendChild(cheerMessage);
       cheerMessage.scrollIntoView();
     });
