@@ -8,7 +8,7 @@ let channels = localStorage.getItem("twitch-connected-channels");
 
 if (JSON.parse(channels)) {
   messagesContainer.classList.add("mt-5");
-  messagesContainer.innerHTML = `<p id="recent-channels-title"><i class="bi bi-clock-fill fs-3"></i> Recent channels</p>`;
+  messagesContainer.innerHTML = `<p id="recent-channels-title"><i class="bi bi-clock-fill fs-3"></i> Recent channels <button class="btn btn-sm clear-recent-channels-button"><i class="bi bi-trash-fill fs-4"></i> Clear</button></p>`;
   for (let i = 0; i < JSON.parse(channels).length; i++) {
     let streamerAvatarUrl = `https://unavatar.io/twitter/${
       JSON.parse(channels)[i]
@@ -17,7 +17,7 @@ if (JSON.parse(channels)) {
     const joinChannelButton = document.createElement("button");
     joinChannelButton.classList.add("btn", "btn-sm");
     channelElement.classList.add("channel");
-    joinChannelButton.innerHTML = `<i class="bi bi-box-arrow-in-right"></i>`;
+    joinChannelButton.innerHTML = `<i class="bi bi-chat-dots-fill"></i> Connect`;
     channelElement.innerHTML = `<img src="${streamerAvatarUrl}"><i class="bi bi-camera-video-fill streamer-icon"></i> <p>${
       JSON.parse(channels)[i]
     }</p>`;
@@ -27,6 +27,13 @@ if (JSON.parse(channels)) {
       channelFormInput.value = JSON.parse(channels)[i];
     });
   }
+  const clearRecentChannels = document.querySelector(
+    ".clear-recent-channels-button"
+  );
+  clearRecentChannels.addEventListener("click", () => {
+    location.reload();
+    localStorage.clear();
+  });
 }
 channelForm.addEventListener("submit", (event) => {
   event.preventDefault();
