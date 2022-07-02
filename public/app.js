@@ -3,13 +3,31 @@ const channelForm = document.querySelector("#channel-form");
 const channelFormInput = document.querySelector("#channel-form input");
 const channelNameText = document.querySelector("#channel-name-text");
 
-let connectedChannels;
-if (localStorage.getItem("twitch-connected-channels") === null) {
-  connectedChannels = new Set();
-} else {
-  // fill channel list
-}
+let connectedChannels = [];
+let channels = localStorage.getItem("twitch-connected-channels");
 
+if (JSON.parse(channels)) {
+  messagesContainer.classList.add("mt-5");
+  messagesContainer.innerHTML = `<p id="recent-channels-title"><i class="bi bi-clock-fill fs-3"></i> Recent channels</p>`;
+  for (let i = 0; i < JSON.parse(channels).length; i++) {
+    let streamerAvatarUrl = `https://unavatar.io/twitter/${
+      JSON.parse(channels)[i]
+    }`;
+    const channelElement = document.createElement("li");
+    const joinChannelButton = document.createElement("button");
+    joinChannelButton.classList.add("btn", "btn-sm");
+    channelElement.classList.add("channel");
+    joinChannelButton.innerHTML = `<i class="bi bi-box-arrow-in-right"></i>`;
+    channelElement.innerHTML = `<img src="${streamerAvatarUrl}"><i class="bi bi-camera-video-fill streamer-icon"></i> <p>${
+      JSON.parse(channels)[i]
+    }</p>`;
+    channelElement.appendChild(joinChannelButton);
+    messagesContainer.appendChild(channelElement);
+    joinChannelButton.addEventListener("click", () => {
+      channelFormInput.value = JSON.parse(channels)[i];
+    });
+  }
+}
 channelForm.addEventListener("submit", (event) => {
   event.preventDefault();
   messagesContainer.innerHTML = "";
@@ -20,9 +38,11 @@ channelForm.addEventListener("submit", (event) => {
     channels: [channel],
   });
   client.connect();
-  connectedChannels.add(channel);
-  localStorage.setItem("twitch-connected-channels", connectedChannels);
-  console.log(localStorage.getItem("twitch-connected-channels"));
+  connectedChannels.push(channel);
+  localStorage.setItem(
+    "twitch-connected-channels",
+    JSON.stringify(connectedChannels)
+  );
   channelNameText.innerHTML = `<i class="bi bi-camera-video-fill me-2"></i> <span id="view-channel-name">${channel}</span>`;
   channelForm.reset();
 
@@ -44,7 +64,7 @@ channelForm.addEventListener("submit", (event) => {
       chatName.style.color = "#7744d5";
       chatName.style.fontWeight = "bold";
     }
-    if (message.startsWith("@")) {
+    if (message.includes("@")) {
       let [mention, ...args] = message.split(" ");
       messageElement.innerHTML = `<img src="${avatarUrl}"> <span id="chat-name">${
         messageContent.name

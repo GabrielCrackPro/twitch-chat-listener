@@ -35,7 +35,8 @@ i {
 #messages-container {
   list-style: none;
 }
-.message {
+.message,
+.channel {
   border: 2px solid #7744d5;
   margin: 15px;
   padding: 15px;
@@ -46,6 +47,12 @@ i {
   width: 20px;
   border: 1px solid #7744d5;
   border-radius: 20px;
+}
+.channel img {
+  height: 50px;
+  width: 50px;
+  border: 1px solid #7744d5;
+  border-radius: 40px;
 }
 .purple {
   color: #7744d5;
@@ -58,9 +65,29 @@ i {
   background: #000;
   color: #fff;
 }
+.channel {
+  display: flex;
+  justify-content: space-evenly;
+}
+.channel .streamer-icon {
+  color: #f00;
+}
+.channel p {
+  font-weight: bold;
+}
+.channel button {
+  background: #7744d5;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 15px;
+}
+.channel button:hover {
+  border: 1px solid #7744d5;
+  font-weight: bold;
+}
 #channel-name-text {
-  border: 2px solid #7744d5;
-  padding: 5px;
+  border-top: 2px solid #7744d5;
+  border-bottom: 2px solid #7744d5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +95,11 @@ i {
 #view-channel-name {
   color: #7744d5;
   font-weight: bold;
+}
+#recent-channels-title {
+  text-align: center;
+  border-bottom: 2px solid #7744d5;
+  border-top: 2px solid #7744d5;
 }
 @media (prefers-color-scheme: light) {
   body {
