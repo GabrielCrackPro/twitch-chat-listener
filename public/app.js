@@ -3,6 +3,13 @@ const channelForm = document.querySelector("#channel-form");
 const channelFormInput = document.querySelector("#channel-form input");
 const channelNameText = document.querySelector("#channel-name-text");
 
+let connectedChannels;
+if (localStorage.getItem("twitch-connected-channels") === null) {
+  connectedChannels = new Set();
+} else {
+  // fill channel list
+}
+
 channelForm.addEventListener("submit", (event) => {
   event.preventDefault();
   messagesContainer.innerHTML = "";
@@ -13,7 +20,10 @@ channelForm.addEventListener("submit", (event) => {
     channels: [channel],
   });
   client.connect();
-  channelNameText.innerHTML = `<i class="bi bi-tv-fill"></i>:<span id="view-channel-name">${channel}</span>`;
+  connectedChannels.add(channel);
+  localStorage.setItem("twitch-connected-channels", connectedChannels);
+  console.log(localStorage.getItem("twitch-connected-channels"));
+  channelNameText.innerHTML = `<i class="bi bi-camera-video-fill me-2"></i> <span id="view-channel-name">${channel}</span>`;
   channelForm.reset();
 
   client.on("message", (channel, tags, message, self) => {
