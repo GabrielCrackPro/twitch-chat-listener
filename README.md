@@ -20,11 +20,12 @@ App to listen to twitch chat built using <a href="http://tmijs.com">tmijs</a> li
   - [x] Cheers
   - [ ] Host
   - [ ] Raid
-- [ ] Detect mentions
+- [x] Detect mentions
 - [ ] Detect links
 - [ ] Detect user type
   - [x] Broadcaster
   - [x] Sub
   - [ ] No sub
 - [ ] Render emotes
+- [x] Add recent channels list
 - And more...
